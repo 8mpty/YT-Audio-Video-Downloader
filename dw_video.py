@@ -13,7 +13,7 @@ def download_video(urls, download_folder):
         os.makedirs(download_folder)
 
     ydl_opts = {
-        'format': 'bestvideo[height<=1080][ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
+        'format': 'bv*[height<=1080]+ba/best',
         'merge_output_format': 'mp4',
         'outtmpl': os.path.join(download_folder, '%(title)s.%(ext)s'),
         'postprocessors': [{
