@@ -15,7 +15,6 @@ def get_ydl_opts(download_folder, outtemplate=DEFAULT_OUTTEMPLATE, is_playlist=F
         # 'cookiefile': 'cookies.txt',
     }
 
-
 def download_video(urls, base_folder):
     os.makedirs(TEMPFOLDER, exist_ok=True)
 
