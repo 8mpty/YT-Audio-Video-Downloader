@@ -1,3 +1,4 @@
+import os
 from dw_music import download_audio
 from dw_video import download_video
 
@@ -8,19 +9,25 @@ def main():
             break
         print("Please enter either 'video' or 'audio'")
 
-    default_folder = 'download-videos' if download_type == 'video' else 'download-audios'
-    download_folder = input(f"Enter the download folder path (leave blank for default '{default_folder}'): ")
-    if not download_folder.strip():
-        download_folder = default_folder
+    default_base_folder = 'download-videos' if download_type == 'video' else 'download-audios'
+    user_input = input(
+        f"Enter a subfolder name to save into (leave blank to use '{default_base_folder}'): "
+    ).strip()
+
+    if not user_input:
+        download_folder = default_base_folder
+    else:
+        download_folder = os.path.join(default_base_folder, user_input)
+
+    print(f"Files will be downloaded to: {download_folder}")
 
     urls = []
-    print("\nEnter YouTube URLs (type 'done' to finish):")
+    print("\nEnter URLs (press Enter without typing anything to finish or Ctrl + C to exit):")
     while True:
         url = input("URL: ").strip()
-        if url.lower() == 'done':
+        if not url:
             break
-        if url:
-            urls.append(url)
+        urls.append(url)
 
     if not urls:
         print("No URLs provided. Exiting...")
