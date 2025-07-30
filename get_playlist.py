@@ -1,17 +1,13 @@
 import yt_dlp
 import re
 
-
 def clean_filename(name: str) -> str:
-    # Removes or replaces invalid characters in file/folder names.
     invalid_chars = '<>:"/\\|?*'
     for char in invalid_chars:
         name = name.replace(char, '-')
     return name.strip()
 
-
 def extract_info(url: str) -> dict:
-    # Extracts info dict from a YouTube URL using yt_dlp.
     ydl_opts = {
         'quiet': True,
         'extract_flat': False,
@@ -21,9 +17,7 @@ def extract_info(url: str) -> dict:
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         return ydl.extract_info(url, download=False)
 
-
 def extract_artist_album(info: dict) -> tuple[str | None, str | None]:
-    # Tries to find artist and album.
     artist = info.get('artist')
     album = info.get('album')
 
@@ -36,17 +30,13 @@ def extract_artist_album(info: dict) -> tuple[str | None, str | None]:
 
     return artist, album
 
-
 def parse_album_from_title(title: str) -> str | None:
-    # Regex to parse 'Album - Name' style titles.
     match = re.match(r'^\s*(?:Album|EP|Single)?\s*-\s*(.+)', title, re.IGNORECASE)
     if match:
         return match.group(1).strip()
     return None
 
-
 def build_playlist_title(title: str, artist: str | None, album: str | None) -> str:
-    # Constructs the folder name using artist/album or fallback to title.
     parsed_album = parse_album_from_title(title) or album
 
     if artist and parsed_album:
@@ -56,9 +46,7 @@ def build_playlist_title(title: str, artist: str | None, album: str | None) -> s
 
     return clean_filename(playlist_title)
 
-
 def get_playlist_info(url: str) -> tuple[bool, str | None]:
-    # Main entry: returns (is_playlist, playlist_title).
     try:
         info = extract_info(url)
         is_playlist = 'entries' in info

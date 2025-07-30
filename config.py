@@ -13,6 +13,7 @@ QUIET_MODE = False
 DEFAULT_OUTTEMPLATE = '%(title)s.%(ext)s'
 
 KEEP_THUMBNAIL = False
+TEMPFOLDER = ".TEMPDOWNLOAD"
 
 def delete_thumbnails(folder):
     thumbnail_exts = ['*.webp']
