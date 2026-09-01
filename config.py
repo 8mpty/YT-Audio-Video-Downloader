@@ -1,4 +1,4 @@
-import os, glob
+import os
 
 AUDIO_FORMAT = 'bestaudio/best'
 VIDEO_FORMAT = 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best'
@@ -15,18 +15,18 @@ DEFAULT_OUTTEMPLATE = '%(title)s.%(ext)s'
 KEEP_THUMBNAIL = False
 TEMPFOLDER = ".TEMPDOWNLOAD"
 
-def delete_thumbnails(folder):
-    thumbnail_exts = ['*.webp']
+# Download behavior
+MAX_CONCURRENT_DOWNLOADS = 4      # max parallel downloads
+MAX_RETRIES = 3                   # attempts per URL before it's marked failed
+RETRY_BACKOFF_SECONDS = 2         # base backoff between retries (linear)
 
-    deleted_files = 0
-    for ext in thumbnail_exts:
-        for file in glob.glob(os.path.join(folder, ext)):
-            try:
-                os.remove(file)
-                print(f"Deleted thumbnail: {file}")
-                deleted_files += 1
-            except Exception as e:
-                print(f"Failed to delete {file}: {str(e)}")
+# Resume support
+RESUME_FOLDER = ".resume"
+RESUME_FILE = os.path.join(RESUME_FOLDER, "failed.json")
 
-    if deleted_files == 0:
-        print("No thumbnails found to delete.")
+# Download history (date -> list of successfully downloaded URLs)
+HISTORY_FOLDER = ".history"
+HISTORY_FILE = os.path.join(HISTORY_FOLDER, "history.json")
+
+# Temp cleanup: partial (.part/.ytdl) files older than this are purged on start
+MAX_TEMP_AGE_DAYS = 1

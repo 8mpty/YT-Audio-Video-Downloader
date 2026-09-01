@@ -162,4 +162,7 @@ cython_debug/
 download-*
 cookies*
 notes*
+link*
 .TEMP*
+.history/
+.resume/
